@@ -74,7 +74,7 @@ class DcMot
          * @param res       Optional user resuloution, defaults to 100.
          *                  See README.md for details.
          */
-        DcMot(DcMotParams_t *pParms, uint32_t res = 100);
+        DcMot(DcMotParams_t *pParms, uint16_t res = 100);
 
         /**
          * @brief Innitializes DcMot object
@@ -83,7 +83,7 @@ class DcMot
          * @param res       Optional user resuloution, defaults to 100.
          *                  See README.md for details.
          */
-        void init(DcMotParams_t *pParms, uint32_t res = 100);
+        void init(DcMotParams_t *pParms, uint16_t res = 100);
 
         /**
          * @brief Sets the motor speed including the direction.
@@ -147,7 +147,7 @@ class DcMot
          * @brief The user space resultion to map to the cc channel.
          * 
          */
-        uint32_t Resolution;
+        int32_t Resolution;
 };
 
 #endif /* DCMOT_HPP_ */

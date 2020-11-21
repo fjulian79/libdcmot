@@ -35,12 +35,12 @@ DcMot::DcMot() :
     /* Nothing to do */
 }
 
-DcMot::DcMot(DcMotParams_t *pParms, uint32_t res)
+DcMot::DcMot(DcMotParams_t *pParms, uint16_t res)
 {
     init(pParms, res);
 }
 
-void DcMot::init(DcMotParams_t *pParms, uint32_t res)
+void DcMot::init(DcMotParams_t *pParms, uint16_t res)
 {
     pTimer = pParms->pTim;
     A = pParms->A;
