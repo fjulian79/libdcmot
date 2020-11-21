@@ -20,7 +20,7 @@
  * You can file issues at https://github.com/fjulian79/libdcmot/issues
  */
 
-#include <dcmot.h>
+#include <dcmot/dcmot.hpp>
 
 #include <string.h>
 
