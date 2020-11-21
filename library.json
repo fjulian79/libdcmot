@@ -1,0 +1,17 @@
+{
+    "name": "libdcmot",
+    "version": "1.0.0",
+    "keywords": "TB6612FNG, motor, STM32, Arduino",
+    "description": "A class used to operate a DC motor connected to a TB6612FNG driver by using STM32Duino hardware timer support",
+    "license": "GPL-3.0",
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/fjulian79/libdcmot.git"
+    },
+    "frameworks": "arduino",
+    "platforms": 
+    [
+      "ststm32"
+    ]
+}
