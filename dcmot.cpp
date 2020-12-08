@@ -46,7 +46,6 @@ void DcMot::init(DcMotParams_t *pParms, uint16_t res)
     A = pParms->A;
     B = pParms->B;
     Resolution = res;
-    ARR = pTimer->getOverflow() + 1;
     Channel = STM_PIN_CHANNEL(pinmap_function(digitalPinToPinName(pParms->Pwm),
             PinMap_PWM));
     pTimer->setMode(Channel, TIMER_OUTPUT_COMPARE_PWM1,
@@ -56,6 +55,8 @@ void DcMot::init(DcMotParams_t *pParms, uint16_t res)
     
     pinMode(A, OUTPUT);
     pinMode(B, OUTPUT);
+
+    limit(100);
 }
 
 void DcMot::set(int32_t val)
@@ -107,4 +108,14 @@ void DcMot::ebreak(uint32_t val)
     digitalWrite(A, HIGH);
     digitalWrite(B, HIGH);
     pTimer->setCaptureCompare(Channel, ccval);
+}
+
+void DcMot::limit(uint8_t percent)
+{
+    if (percent > 100)
+    {
+        percent = 100;
+    } 
+
+    ARR = ((pTimer->getOverflow() + 1) * percent) / 100;
 }

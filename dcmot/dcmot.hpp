@@ -114,6 +114,17 @@ class DcMot
          */
         void ebreak(uint32_t val);
 
+        /**
+         * @brief Limits the output power to the given percentage.
+         * 
+         * Initially the output power is not limited (100%). If a limit has 
+         * been applied, it can be removed by calling this function once again 
+         * with percent set to 100.
+         * 
+         * @param percent The percentage of output power to apply to.
+         */
+        void limit(uint8_t percent);
+
     private:
 
         /**
