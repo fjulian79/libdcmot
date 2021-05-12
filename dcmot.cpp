@@ -25,10 +25,10 @@
 #include <string.h>
 
 DcMot::DcMot() : 
-      pTimer(0)
-    , A(0)
-    , B(0)
-    , Channel(0)
+      pPwmTim(0)
+    , Drv_A(0)
+    , Drv_B(0)
+    , PwmCh(0)
     , ARR(0)
     , Resolution(0)
 {
@@ -42,19 +42,19 @@ DcMot::DcMot(DcMotParams_t *pParms, uint16_t res)
 
 void DcMot::init(DcMotParams_t *pParms, uint16_t res)
 {
-    pTimer = pParms->pTim;
-    A = pParms->A;
-    B = pParms->B;
+    pPwmTim = pParms->pPwmTim;
+    Drv_A = pParms->Drv_A;
+    Drv_B = pParms->Drv_B;
     Resolution = res;
-    Channel = STM_PIN_CHANNEL(pinmap_function(digitalPinToPinName(pParms->Pwm),
+    PwmCh = STM_PIN_CHANNEL(pinmap_function(digitalPinToPinName(pParms->Drv_Pwm),
             PinMap_PWM));
-    pTimer->setMode(Channel, TIMER_OUTPUT_COMPARE_PWM1,
-            digitalPinToPinName(pParms->Pwm));
-    pTimer->setCaptureCompare(Channel, 0);
-    pTimer->resumeChannel(Channel);
+    pPwmTim->setMode(PwmCh, TIMER_OUTPUT_COMPARE_PWM1,
+            digitalPinToPinName(pParms->Drv_Pwm));
+    pPwmTim->setCaptureCompare(PwmCh, 0);
+    pPwmTim->resumeChannel(PwmCh);
     
-    pinMode(A, OUTPUT);
-    pinMode(B, OUTPUT);
+    pinMode(Drv_A, OUTPUT);
+    pinMode(Drv_B, OUTPUT);
 
     limit(100);
 }
@@ -63,7 +63,7 @@ void DcMot::set(int32_t val)
 {
     uint32_t ccval = 0;
 
-    if(pTimer == 0)
+    if(pPwmTim == 0)
     {
         return;
     }
@@ -72,23 +72,23 @@ void DcMot::set(int32_t val)
 
     if (val == 0)
     {
-        digitalWrite(A, LOW);
-        digitalWrite(B, LOW);
+        digitalWrite(Drv_A, LOW);
+        digitalWrite(Drv_B, LOW);
     }
     else if(val < 0)
     {
         val = -val;
-        digitalWrite(A, HIGH);
-        digitalWrite(B, LOW);
+        digitalWrite(Drv_A, HIGH);
+        digitalWrite(Drv_B, LOW);
     } 
     else
     {
-        digitalWrite(A, LOW);
-        digitalWrite(B, HIGH);
+        digitalWrite(Drv_A, LOW);
+        digitalWrite(Drv_B, HIGH);
     }
 
     ccval = (ARR * val) / Resolution;
-    pTimer->setCaptureCompare(Channel, ccval);
+    pPwmTim->setCaptureCompare(PwmCh, ccval);
 }
 
 void DcMot::stop(void)
@@ -100,14 +100,14 @@ void DcMot::ebreak(uint32_t val)
 {
     uint32_t ccval = (ARR * val) / Resolution;
     
-    if(pTimer == 0)
+    if(pPwmTim == 0)
     {
         return;
     }
 
-    digitalWrite(A, HIGH);
-    digitalWrite(B, HIGH);
-    pTimer->setCaptureCompare(Channel, ccval);
+    digitalWrite(Drv_A, HIGH);
+    digitalWrite(Drv_B, HIGH);
+    pPwmTim->setCaptureCompare(PwmCh, ccval);
 }
 
 void DcMot::limit(uint8_t percent)
@@ -117,5 +117,5 @@ void DcMot::limit(uint8_t percent)
         percent = 100;
     } 
 
-    ARR = ((pTimer->getOverflow() + 1) * percent) / 100;
+    ARR = ((pPwmTim->getOverflow() + 1) * percent) / 100;
 }

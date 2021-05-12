@@ -36,22 +36,22 @@ typedef struct
      * 
      * The timer has to be be initalized sperately, see README.md
      */
-    HardwareTimer *pTim;
+    HardwareTimer *pPwmTim;
 
     /**
      * @brief The pin number connected to the A driver pin.
      */
-    uint32_t A;
+    uint32_t Drv_A;
     
     /**
      * @brief The pin number connected to the B driver pin.
      */
-    uint32_t B;
+    uint32_t Drv_B;
     
     /**
      * @brief The pin number connected to the PWM driver pin.
      */
-    uint32_t Pwm;
+    uint32_t Drv_Pwm;
 
 }DcMotParams_t;
 
@@ -130,22 +130,22 @@ class DcMot
         /**
          * @brief Pointer to the used timer instance.
          */
-        HardwareTimer *pTimer;
+        HardwareTimer *pPwmTim;
         
         /**
          * @brief The pin number connected to the A driver pin. 
          */
-        int A;
+        int Drv_A;
 
         /**
          * @brief The pin number connected to the B driver pin.
          */
-        int B;
+        int Drv_B;
 
         /**
          * @brief The CC chanel used to generate the pwm signal.
          */
-        uint8_t Channel;
+        uint8_t PwmCh;
 
         /**
          * @brief The The timer overflow value.
